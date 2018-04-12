@@ -30,7 +30,13 @@
 			   .data(dataset)
 			   .enter()
 			   .append("circle")
-               .attr("r", 6);
+			   .attr("r", 6)
+               .attr("cx", function(d) {
+               	return d[0]
+               })
+               .attr("cy", function(d) {
+               	return h-d[1]
+               });
 			
 		</script>
 	</body>
