@@ -3,11 +3,11 @@
 <style>
 
 .link {
-  stroke: #000;
+  stroke: #FF6347;
 }
 
 .node {
-  stroke: #fff;
+  stroke: #CD5C5C;
 }
 
 </style>
@@ -15,8 +15,8 @@
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
 
-var width = 960,
-    height = 500;
+var width = 1000,
+    height = 600;
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -25,15 +25,15 @@ var svg = d3.select("body").append("svg")
 var force = d3.layout.force()
     .size([width, height]);
 
-d3.csv("graph.csv", function(error, links) {
+d3.csv("flight.csv", function(error, links) {
   if (error) throw error;
 
   var nodesByName = {};
 
-  // Create nodes for each unique source and target.
+  // Create nodes for each unique ORIGIN and DEST.
   links.forEach(function(link) {
-    link.source = nodeByName(link.source);
-    link.target = nodeByName(link.target);
+    link.source = nodeByName(link.ORIGIN);
+    link.target = nodeByName(link.DEST);
   });
 
   // Extract the array of nodes from the map by name.
@@ -57,6 +57,10 @@ d3.csv("graph.csv", function(error, links) {
   force
       .nodes(nodes)
       .links(links)
+      .friction(0.9)
+      .linkDistance(200)
+      .alpha(0.3)
+      .theta(0.5)
       .on("tick", tick)
       .start();
 
